@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="test2.css">
+	</head>
+<body>
+<form action="test2.jsp" method="post">
+<div id='first' class="container">
+	<div class="row align-items-center">
+		<div class="col-md-12">
+	<p>請選擇你所需要解決的問題</p>
+		<select id="problem-list" name="problem" onchange="changeProblem(this.selectedIndex)" class="form-select form-select-sm" aria-label=".form-select-sm example"></select>
+		</div>
+	</div>
+</div>
+
+<div style="height:50px;"></div>
+<div id='first' class="container">
+	<div class="row align-items-center">
+		<div class="col-md-4">
+            <p>選擇你所要使用的Selection operator</p>
+			<select id="selection" name="selection" class="form-select form-select-sm" aria-label=".form-select-sm example"></select>
+		</div>
+		<div class="col-md-4">
+			<p>選擇你所要使用的Crossover operator</p>
+			<select id="crossover" name="crossover" class="form-select form-select-sm" aria-label=".form-select-sm example"></select>
+		</div>
+		<div class="col-md-4">	
+			<p>選擇你所要使用的Mutation operator</p>
+			<select id="mutation" name="mutation" class="form-select form-select-sm" aria-label=".form-select-sm example"></select>
+		</div>
+	</div>
+</div>
+
+
+
+<div style="height:50px;"></div>
+<div id='second' class="container">
+	<div class="row align-items-center">
+		<div class="col-md-4">
+			<div class="input-group mb-3">
+				<label class="form-label" for="typeNumber">Crossover rate</label>
+				<input type="number" class="form-control" step="1" min="0" max="100" name="crossrate" placeholder="請輸入數字 0~100"/>
+		 	   <span class="input-group-text">%</span>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="input-group mb-3">
+				<label class="form-label" for="typeNumber">Mutation rate</label>
+				<input type="number" class="form-control" step="1" min="0" max="100" name="mutarate" placeholder="請輸入數字 0~100"/>
+				<span class="input-group-text">%</span>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="input-group mb-3">
+				<label class="form-label" for="typeNumber">Generations</label>
+				<input type="number" class="form-control" step="10" min="10" max="1000" name="generations" placeholder="請輸入數字 10~1000"/>
+				<span class="input-group-text">代</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="height: 50px;"></div>
+
+<div id='third' class="container">
+	<div class="row align-items-center">
+		<div class="col-md-6">
+			是否使用菁英選擇：<br>
+				<input type="radio" name="yn" value="1" onclick="myFunction(this)"> yes<br>
+				<input type="radio" name="yn" value="0" onclick="myFunction(this)"> no
+		</div>
+		<div id="myInput" class="col-md-6">
+			<div class="input-group mb-3">
+				<label class="form-label" for="typeNumber">輸入菁英比率</label>
+				<input type="number" value="0" class="form-control" step="1" min="0" max="20" name="elitism" placeholder="請輸入數字 0~20"/>
+				<span class="input-group-text">%</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="height:50px;"></div>
+<div align="center">
+	<input type="submit" class="btn btn-primary" value="送出">
+</div>
+
+
+</form>
+		
+		<script type="text/javascript">
+			var problems=['TSP問題','背包問題','排程問題','D問題','E問題','F問題'];
+			var problemSelect=document.getElementById("problem-list");
+			var inner="";
+			for(var i=0;i<problems.length;i++){
+				inner=inner+'<option value=i>'+problems[i]+'</option>';
+			}
+			problemSelect.innerHTML=inner;
+			
+			var sectors1=new Array();
+			sectors1[0]=['AA','AB','AC'];
+			sectors1[1]=['BA','BB','BC'];
+			sectors1[2]=['CA','CB','CC'];	
+			sectors1[3]=['DA','DB','DC'];
+			sectors1[4]=['EA','EB','EC'];
+			sectors1[5]=['FA','FB','FC'];
+			
+			var sectors2=new Array();
+			sectors2[0]=['AD','AE','AF'];
+			sectors2[1]=['BD','BE','BF'];
+			sectors2[2]=['CD','CE','CF'];	
+			sectors2[3]=['DD','DE','DF'];
+			sectors2[4]=['ED','EE','EF'];
+			sectors2[5]=['FD','FE','FF'];
+			
+			var sectors3=new Array();
+			sectors3[0]=['AG','AH','AI'];
+			sectors3[1]=['BG','BH','BI'];
+			sectors3[2]=['CG','CH','CI'];	
+			sectors3[3]=['DG','DH','DI'];
+			sectors3[4]=['EG','EH','EI'];
+			sectors3[5]=['FG','FH','FI'];
+			
+			function changeProblem(index)
+			{
+				//選擇運算子
+				var Sinner1="";
+				for(var i=0;i<sectors1[index].length;i++){
+					Sinner1=Sinner1+'<option value=i>'+sectors1[index][i]+'</option>';
+				}
+				var sectorSelect=document.getElementById("selection");
+				sectorSelect.innerHTML=Sinner1;
+				//交配運算子
+				var Sinner2="";
+				for(var i=0;i<sectors2[index].length;i++){
+					Sinner2=Sinner2+'<option value=i>'+sectors2[index][i]+'</option>';
+				}
+				var sectorSelect=document.getElementById("crossover");
+				sectorSelect.innerHTML=Sinner2;
+				//突變運算子
+				var Sinner3="";
+				for(var i=0;i<sectors3[index].length;i++){
+					Sinner3=Sinner3+'<option value=i>'+sectors3[index][i]+'</option>';
+				}
+				var sectorSelect=document.getElementById("mutation");
+				sectorSelect.innerHTML=Sinner3;
+			}
+			changeProblem(document.getElementById("problem-list").selectedIndex);
+			//菁英比率
+			function myFunction(radio) {
+				  var x = document.getElementById("myInput");
+				  if (radio.value === "1") {
+				    x.style.display = "block";
+				  } else {
+				    x.style.display = "none";
+				  }
+				}
+		</script>
+</body>
+</html>
