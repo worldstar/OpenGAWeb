@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel='stylesheet' type="text/css" href="/css/layout.css?v=2">
+    <link rel='stylesheet' type="text/css" href="/css/navbar.css?v=2">
+    <link rel='stylesheet' type="text/css" href="/css/shadow.css?v=2">
+    <title th:text="${pageTitle}">Template</title>
+</head>
+<body>
+    <!-- navbar -->
+        <nav class="navigation" id="shadow-navigation">
+            <ul class="navbar_homepage">
+                <li><a href="/homepage"><b>Home Page</b></a></li>
+                <li><a href="/link1"><b>Algorithms</b></a></li>
+            </ul>
+        </nav>
+        <!-- header -->
+    <div>
+        <header>
+            <img th:src="@{/image/optimization_banner.png}" style="width:100%; height:100%">
+        </header>
+    </div>
+
+    <div class="container">
+        <div class="sidebar"> 
+			
+        </div>
+        <!-- content -->
+        <div class="content">
+        <article>
+        	<h1>Introduction</h1>
+        	<blockquote>
+	TSP問題是一種NP困難問題，其目的是找到一條最短的路徑，使得旅行商可以經過每個城市一次且只經過一次，最終回到起點城市。由於這是一個組合優化問題，當城市的數量增加時，其搜索空間會急劇增加，使得傳統的優化算法很難處理大規模問題。
+			
+	遺傳演算法是一種優化算法，通過模擬生物遺傳、突變、交配等過程來搜索最佳解。對於旅行商問題，遺傳演算法的基本思想是將每個城市看作是染色體的一個基因，而染色體上的排列順序表示遊覽城市的路徑。通過交配、突變等操作，生成新的路徑，並選擇優秀的路徑進行下一輪演化，最終找到最短的路徑。
+			
+	在遺傳演算法中，最重要的是如何定義適應度函數。對於TSP問題，適應度函數可以定義為路徑的總長度。因此，對於每個生成的路徑，都需要計算其總長度，並將其作為適應度值。透過這樣的過程，可以不斷生成新的路徑，直到找到最短路徑為止。
+	使用遺傳演算法來處理TSP問題具有以下優勢：
+			
+	1.可以處理大規模問題，比其他優化算法更具擴展性；
+	2.可以避免陷入局部最優解，尋找全局最優解的機率更高；
+	3.可以較好地處理多變數和非線性問題。
+			
+	總之，遺傳演算法是一種非常強大的優化算法，可以有效地解決TSP問題等複雜的最佳化問題。通過使用適當的適應度函數和參數設置，可以得到更好的效果。
+			</blockquote>
+		</article>
+        </div>
+
+    </div>
+    <footer>footer</footer>
+</body>
+</html>
