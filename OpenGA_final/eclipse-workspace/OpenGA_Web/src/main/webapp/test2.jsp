@@ -2,11 +2,21 @@
     pageEncoding = "UTF-8"%>
 
 <%@ page import = "opengaRun.TSP_Run"%>
+
 <%@ page import = "opengaRun.singleMachine_Run"%>
-<%@ page import = "opengaRun.knapsackSGA_Run"%>
-<%@ page import = "opengaRun.ParallelMachine_Run"%>
+<%@ page import = "openga.applications.data.knapsackORLibProblems"%>
+
 <%@ page import = "opengaRun.flowshop_Run"%>
+<%@ page import = "java.util.concurrent.ExecutorService"%>
+<%@ page import = "java.util.concurrent.Executors"%>
+<%@ page import = "java.util.concurrent.Executor"%>
+
+<%@ page import = "opengaRun.ParallelMachine_Run"%>
+
+<%@ page import = "opengaRun.knapsackSGA_Run"%>
+
 <%@ page import = "opengaRun.QAP_NVR_Run"%>
+<%@ page import = "openga.applications.data.readQAPData"%>
 
 <!DOCTYPE html>
 
@@ -62,11 +72,28 @@ else
 if(problem.equals("TSP")){
     out.println("TSP");
     
+    int CrossoverType = 1;
+    int MutationType  = 1;
+    
+	if(crossover.equals("CyclingCrossoverP")){
+	    CrossoverType = 1;
+    }
+    else if(crossover.equals("PMX")){
+        CrossoverType = 2;
+    }
+    
+	if(mutation.equals("swapMutation")){
+	    MutationType  = 1;
+    }
+    else if(mutation.equals("shiftMutation")){
+        MutationType  = 2;
+    }
+    
     System.out.print("TSP SGA 1010 DOE");
     TSP_Run TSP1 = new TSP_Run();
     double crossoverRate[], mutationRate[];
-    crossoverRate = new double[]{1.0};//1, 0.5
-    mutationRate  = new double[]{0.5};
+    crossoverRate = new double[]{crossrate};//1, 0.5
+    mutationRate  = new double[]{mutarate};
     int counter = 0;
     double elitismArray[] = new double[]{elitism};
     int generationsArray[] = new int[]{generations};
@@ -91,7 +118,7 @@ if(problem.equals("TSP")){
                   TSP1.setParameter(i, crossoverRate[j], mutationRate[k], counter, elitismArray[n], generationsArray[0],
                           TSPInstances1.getOriginalPoint(), TSPInstances1.getCoordinates(),
                           TSPInstances1.getDistanceMatrix(), TSPInstances1.getSize(), instanceName);
-                  TSP1.initiateVars();
+                  TSP1.initiateVars(CrossoverType, MutationType);
                   TSP1.start();
                   counter ++;
                 }             
@@ -100,23 +127,26 @@ if(problem.equals("TSP")){
         }
       }//end for   
     System.exit(0);
-    
-    if(crossover.equals("CyclingCrossoverP")){
-        
-    }
-    else if(crossover.equals("PMX")){
-        
-    }
-    
-	if(mutation.equals("swapMutation")){
-        
-    }
-    else if(mutation.equals("shiftMutation")){
-        
-    }
 }
 else if(problem.equals("SingleMachine")){
     out.println("SingleMachine");
+    
+    int CrossoverType = 1;
+    int MutationType  = 1;
+    
+    if(crossover.equals("twoPointCrossover2")){
+        CrossoverType = 1;
+    }
+    else if(crossover.equals("PMX")){
+        CrossoverType = 2;
+    }
+    
+	if(mutation.equals("shiftMutation")){
+	    MutationType  = 1;
+    }
+    else if(mutation.equals("inverseMutation")){
+        MutationType  = 2;
+    }
     
     singleMachine_Run singleMachine1 = new singleMachine_Run();
     System.out.println("singleMachineGA_SKS_20070506");
@@ -126,8 +156,8 @@ else if(problem.equals("SingleMachine")){
     int repeatExperiments = 30;
 
     int popSize[] = new int[]{100};//50, 100, 155, 210 [100]
-    double crossoverRate[] = new double[]{0.9},//0.6, 0.9 {0.9}
-           mutationRate [] = new double[]{0.5};//0.1, 0.5 {0.5}
+    double crossoverRate[] = new double[]{crossrate},//0.6, 0.9 {0.9}
+           mutationRate [] = new double[]{mutarate};//0.1, 0.5 {0.5}
            // elitism = 0.2;
 
     //Sourd Instance
@@ -147,7 +177,7 @@ else if(problem.equals("SingleMachine")){
             int processingTime[] = readSingleMachineData1.getPtime();
 
             singleMachine1.setData(numberOfJobs, dueDate, processingTime, fileName);
-            singleMachine1.initiateVars();
+            singleMachine1.initiateVars(CrossoverType, MutationType);
             singleMachine1.startMain();
             counter ++;
           }
@@ -190,24 +220,26 @@ else if(problem.equals("SingleMachine")){
       }
     }//end for
     */
-    
-    if(crossover.equals("twoPointCrossover2")){
-        
-    }
-    else if(crossover.equals("PMX")){
-        
-    }
-    
-	if(mutation.equals("shiftMutation")){
-        
-    }
-    else if(mutation.equals("inverseMutation")){
-        
-    }
 }
 else if(problem.equals("flowshop")){
     out.println("flowshop");
     
+    int CrossoverType = 1;
+    int MutationType  = 1;
+    
+    if(crossover.equals("twoPointCrossover2")){
+        CrossoverType = 1;
+    }
+    else if(crossover.equals("PMX")){
+        CrossoverType = 2;
+    }
+    
+	if(mutation.equals("shiftMutation")){
+	    MutationType  = 1;
+    }
+    else if(mutation.equals("inverseMutation")){
+        MutationType  = 2;
+    }
     
     System.out.println("in flow shop SGA");
     flowshop_Run flowshop1 = new flowshop_Run();
@@ -226,7 +258,7 @@ else if(problem.equals("flowshop")){
       for(int k = 0 ; k < kValues.length ; k ++ ){
         for(int m = 0 ; m < targetValue.length ; m ++ ){
           for(int i = 0 ; i < repeatExperiments/cores ; i ++ ){
-            ExecutorService application = Executors.newCachedThreadPool();
+            ExecutorService application0 = Executors.newCachedThreadPool();
             //ArrayList<Callable> retrieverTasks = new ArrayList<Callable>();
             //ArrayList<Callable<T>> retrieverTasks = new ArrayList<Callable<T>>();
             flowshop_Run flowshopArray[] = new flowshop_Run[cores];
@@ -235,10 +267,10 @@ else if(problem.equals("flowshop")){
               flowshopArray[x] = new flowshop_Run();
               flowshopArray[x].setFlowShopData(numberOfJob[j], numberOfMachines);
               flowshopArray[x].setParameters(kValues[k], targetValue[m]);
-              flowshopArray[x].initiateVars();
+              flowshopArray[x].initiateVars(CrossoverType, MutationType);
               //retrieverTasks.add((Callable<T>)flowshopArray[x]);
             }
-            flowshopArray[0].sendToPool(flowshopArray);
+            // flowshopArray[0].sendToPool(flowshopArray);
             //application.shutdown();
           }//end for
         }
@@ -254,29 +286,12 @@ else if(problem.equals("flowshop")){
             System.out.println(counter++);
             flowshop1.setFlowShopData(numberOfJob[j], numberOfMachines);
             flowshop1.setParameters(kValues[k], targetValue[m]);
-            flowshop1.initiateVars();
+            flowshop1.initiateVars(CrossoverType, MutationType);
             flowshop1.start();
           }
         }
       }
     }//end for
-    
-    if(crossover.equals("twoPointCrossover2")){
-        
-    }
-    else if(crossover.equals("PMX")){
-        
-    }
-    
-	if(mutation.equals("shiftMutation")){
-        
-    }
-    else if(mutation.equals("inverseMutation")){
-        
-    }
-	
-	
-	
 }
 else if(problem.equals("ParallelMachine")){
     out.println("ParallelMachine");
@@ -293,14 +308,23 @@ else if(problem.equals("ParallelMachine")){
 else if(problem.equals("knapsack Problem")){
     out.println("knapsack Problem");
     
+    int CrossoverType = 1;
+    
+	if(crossover.equals("uniformCrossover")){
+	    CrossoverType = 1;
+    }
+    else if(crossover.equals("onePointBinaryCrossover")){
+        CrossoverType = 2;
+    }
+    
     System.out.println("knapsackSGA_DOE20101107");
     int popSize[] = new int[]{100};//100, 200
     int numberOfItem[] = new int []{500};//100, 250, 500
     int numberOfKnapsack[] = new int[]{5, 10, 30};//5, 10, 30
 
-    double crossoverRate[] = new double[]{0.9, 0.5},//0.9, 0.5
-           mutationRate[] = new double[]{0.5, 0.1},//0.5, 0.1
-           elitismArray[] = new double[]{0.2, 0.1};//0.2, 0.1
+    double crossoverRate[] = new double[]{crossrate, 0.5},//0.9, 0.5
+           mutationRate[] = new double[]{mutarate, 0.1},//0.5, 0.1
+           elitismArray[] = new double[]{elitism, 0.1};//0.2, 0.1
     int repeatExperiments = 30;
     int counter = 0;
 
@@ -323,7 +347,7 @@ else if(problem.equals("knapsack Problem")){
                   knapsackSGA_Run knapsackSGA1 = new knapsackSGA_Run();
                   knapsackSGA1.setData(numberOfItem[i], numberOfKnapsack[j], popSize[0], crossoverRate[m], mutationRate[n], elitismArray[p]);
                   knapsackSGA1.setKnapsackData(instanceName, profit[k], weights[k], rightHandSide[k]);
-                  knapsackSGA1.initiateVars();
+                  knapsackSGA1.initiateVars(CrossoverType);
                   knapsackSGA1.start();
                 }
               }
@@ -335,25 +359,35 @@ else if(problem.equals("knapsack Problem")){
       }
     }
     
-    if(crossover.equals("uniformCrossover")){
-        
-    }
-    else if(crossover.equals("onePointBinaryCrossover")){
-        
-    }
-    
 	// bitFlipMutation
 	
 }
 else if(problem.equals("QAP")){
     out.println("QAP");
     
+    int CrossoverType = 1;
+    int MutationType  = 1;
+    
+    if(crossover.equals("twoPointCrossover2")){
+        CrossoverType = 1;
+    }
+    else if(crossover.equals("PMX")){
+        CrossoverType = 2;
+    }
+    
+	if(mutation.equals("swapMutation")){
+	    MutationType  = 1;
+    }
+    else if(mutation.equals("shiftMutation")){
+        MutationType  = 2;
+    }
+    
     int repeatExperiments = 30;
     int seed[] = new int[repeatExperiments];
     int popSize[] = new int[]{100, 200};//100, 200{100}
-    double crossoverRate[] = new double[]{0.6, 0.9};//0.6, 0.9 (0.6)
-    double mutationRate[]  = new double[]{0.1, 0.5};//0.1, 0.5 (0.1)
-    double elitismArray[] = new double[]{0.2};
+    double crossoverRate[] = new double[]{crossrate, 0.9};//0.6, 0.9 (0.6)
+    double mutationRate[]  = new double[]{mutarate, 0.5};//0.1, 0.5 (0.1)
+    double elitismArray[] = new double[]{elitism};
     int totalSolnsToExamine = 100000;//100000 is the default one for Zvi Drezner.
     int counter = 0;
     /*
@@ -384,10 +418,10 @@ else if(problem.equals("QAP")){
               System.out.println(counter);
               //totalSolnsToExamine = Math.max(100000, 100*20*size);
               totalSolnsToExamine = 1000*size;
-              QAP_NVR1.setParameter(i, popSize[j], crossoverRate[k], mutationRate[m], counter, elitism[0], totalSolnsToExamine);
+              QAP_NVR1.setParameter(i, popSize[j], crossoverRate[k], mutationRate[m], counter, elitismArray[0], totalSolnsToExamine);
               QAP_NVR1.setQAPData(size, readQAPData1.getFlow(), readQAPData1.getDistance());
               QAP_NVR1.setData(fileName);
-              QAP_NVR1.initiateVars();
+              QAP_NVR1.initiateVars(CrossoverType, MutationType);
               QAP_NVR1.start();
               counter ++;
             }//end for
@@ -397,20 +431,6 @@ else if(problem.equals("QAP")){
     }
 
     System.exit(0);
-    
-    if(crossover.equals("twoPointCrossover2")){
-        
-    }
-    else if(crossover.equals("PMX")){
-        
-    }
-    
-	if(mutation.equals("swapMutation")){
-        
-    }
-    else if(mutation.equals("shiftMutation")){
-        
-    }
 }
 
 %>
