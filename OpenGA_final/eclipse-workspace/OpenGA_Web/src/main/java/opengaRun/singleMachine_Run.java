@@ -98,7 +98,7 @@ public class singleMachine_Run {
     DEFAULT_generations = totalSolnsToExamine/DEFAULT_PopSize;
   }
 
-  public void initiateVars(){
+  public void initiateVars(int CrossoverType, int MutationType){
     GaMain     = new singleThreadGA();//singleThreadGAwithSecondFront singleThreadGAwithMultipleCrossover
     Population = new population();
     Selection  = new binaryTournament();
@@ -119,10 +119,22 @@ public class singleMachine_Run {
     ObjectiveFunction[0].setScheduleData(dueDay, processingTime, numberOfMachines);
 
     //set the data to the GA main program.
-    GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
-                   numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
-    GaMain.setSecondaryCrossoverOperator(Crossover2, true);
-    GaMain.setSecondaryMutationOperator(Mutation2, true);
+    if(CrossoverType == 1 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 1 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover, Mutation2, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation2, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
   }
 
   public void startMain(){
@@ -195,7 +207,7 @@ public class singleMachine_Run {
             int processingTime[] = readSingleMachineData1.getPtime();
 
             singleMachine1.setData(numberOfJobs, dueDate, processingTime, fileName);
-            singleMachine1.initiateVars();
+            singleMachine1.initiateVars(1, 1);
             singleMachine1.startMain();
             counter ++;
           }

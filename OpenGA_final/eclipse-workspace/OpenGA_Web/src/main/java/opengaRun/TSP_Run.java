@@ -11,8 +11,6 @@ import openga.Fitness.*;
 //import openga.util.printClass;
 import openga.util.fileWrite1;
 
-
-
 /**
  * <p>Title: The OpenGA project which is to build general framework of Genetic algorithm.</p>
  * <p>Description: A TSP problem is solved by Simple Genetic Algorithm.</p>
@@ -87,7 +85,7 @@ public class TSP_Run {
    this.instanceName = instanceName;
  }
 
-  public void initiateVars(){
+  public void initiateVars(int CrossoverType, int MutationType){
     GaMain     = new singleThreadGA();//singleThreadGAwithMultipleCrossover singleThreadGA adaptiveGA
     Population = new population();
     Selection  = new binaryTournament();
@@ -105,12 +103,30 @@ public class TSP_Run {
     ObjectiveFunction[0].setTSPData(originalPoint, distanceMatrix);
 
     //set the data to the GA main program.
-    GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction,
-                  Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
-                   length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization,
-                   numberOfObjs, encodeType, elitism);
-    GaMain.setSecondaryCrossoverOperator(Crossover2, false);
-    GaMain.setSecondaryMutationOperator(Mutation2, true);
+    if(CrossoverType == 1 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction,
+                Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                 length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization,
+                 numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 1 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover, Mutation2, ObjectiveFunction,
+                Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                 length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization,
+                 numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation, ObjectiveFunction,
+                Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                 length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization,
+                 numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation2, ObjectiveFunction,
+                Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                 length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization,
+                 numberOfObjs, encodeType, elitism);
+    }
   }
 
   public void start(){
@@ -167,7 +183,7 @@ public class TSP_Run {
                   TSP1.setParameter(i, crossoverRate[j], mutationRate[k], counter, elitism[n], generations[0],
                           TSPInstances1.getOriginalPoint(), TSPInstances1.getCoordinates(),
                           TSPInstances1.getDistanceMatrix(), TSPInstances1.getSize(), instanceName);
-                  TSP1.initiateVars();
+                  TSP1.initiateVars(1, 1);
                   TSP1.start();
                   counter ++;
                 }             

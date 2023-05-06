@@ -96,7 +96,7 @@ public class flowshop_Run<T> implements Callable {
     this.targetDiversity = targetDiversity;
   }
 
-  public void initiateVars(){
+  public void initiateVars(int CrossoverType, int MutationType){
     GaMain     = new singleThreadGA();//singleThreadGA singleThreadGAwithSecondFront singleThreadGAwithMultipleCrossover adaptiveGA
     Population = new population();
     Selection  = new binaryTournament();//binaryTournament similaritySelection(our method) similaritySelection2(by Ishibuchi)
@@ -127,10 +127,22 @@ public class flowshop_Run<T> implements Callable {
     DEFAULT_generations = totalSolnsToExamine/(DEFAULT_PopSize);
 
     //set the data to the GA main program.
-    GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
-                   numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
-    GaMain.setSecondaryCrossoverOperator(Crossover2, true);
-    GaMain.setSecondaryMutationOperator(Mutation2, true);
+    if(CrossoverType == 1 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 1 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover, Mutation2, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation2, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_initPopSize,DEFAULT_PopSize,
+                numberOfJob, DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
   }
 
   public T call(){
@@ -267,7 +279,7 @@ public class flowshop_Run<T> implements Callable {
               flowshopArray[x] = new flowshop_Run();
               flowshopArray[x].setFlowShopData(numberOfJob[j], numberOfMachines);
               flowshopArray[x].setParameters(kValues[k], targetValue[m]);
-              flowshopArray[x].initiateVars();
+              flowshopArray[x].initiateVars(1, 1);
               //retrieverTasks.add((Callable<T>)flowshopArray[x]);
             }
             flowshopArray[0].sendToPool(flowshopArray);
@@ -286,7 +298,7 @@ public class flowshop_Run<T> implements Callable {
             System.out.println(counter++);
             flowshop1.setFlowShopData(numberOfJob[j], numberOfMachines);
             flowshop1.setParameters(kValues[k], targetValue[m]);
-            flowshop1.initiateVars();
+            flowshop1.initiateVars(1, 1);
             flowshop1.start();
           }
         }

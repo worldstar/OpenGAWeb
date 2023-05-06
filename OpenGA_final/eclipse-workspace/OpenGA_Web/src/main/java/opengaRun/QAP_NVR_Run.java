@@ -91,7 +91,7 @@ public class QAP_NVR_Run{
    this.fileName = fileName;
  }
 
-  public void initiateVars(){
+  public void initiateVars(int CrossoverType, int MutationType){
     GaMain     = new singleThreadGA();//singleThreadGAwithMultipleCrossover singleThreadGA adaptiveGA
     Population = new population();
     Selection  = new binaryTournament();
@@ -111,10 +111,22 @@ public class QAP_NVR_Run{
     DEFAULT_generations = totalSolnsToExamine/DEFAULT_PopSize;
 
     //set the data to the GA main program.
-    GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_PopSize,DEFAULT_PopSize,
-                   length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
-    GaMain.setSecondaryCrossoverOperator(Crossover2, false);
-    GaMain.setSecondaryMutationOperator(Mutation2, false);
+    if(CrossoverType == 1 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_PopSize,DEFAULT_PopSize,
+                length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 1 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover, Mutation2, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_PopSize,DEFAULT_PopSize,
+                length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 1) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_PopSize,DEFAULT_PopSize,
+                length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2 && MutationType == 2) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation2, ObjectiveFunction, Fitness, DEFAULT_generations, DEFAULT_PopSize,DEFAULT_PopSize,
+                length , DEFAULT_crossoverRate, DEFAULT_mutationRate, objectiveMinimization, numberOfObjs, encodeType, elitism);
+    }
   }
 
   public void start(){
@@ -179,7 +191,7 @@ public class QAP_NVR_Run{
               QAP_NVR1.setParameter(i, popSize[j], crossoverRate[k], mutationRate[m], counter, elitism[0], totalSolnsToExamine);
               QAP_NVR1.setQAPData(size, readQAPData1.getFlow(), readQAPData1.getDistance());
               QAP_NVR1.setData(fileName);
-              QAP_NVR1.initiateVars();
+              QAP_NVR1.initiateVars(1, 1);
               QAP_NVR1.start();
               counter ++;
             }//end for

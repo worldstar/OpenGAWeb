@@ -24,7 +24,7 @@ public class knapsackSGA_Run {
   int numberOfObjs = 1;//it's a single-objective program.
   populationI Population;
   SelectI Selection;
-  CrossoverI Crossover;
+  CrossoverI Crossover, Crossover2;
   MutationI Mutation, Mutation2;
   ObjectiveFunctionKnapsackI ObjectiveFunction[];
   FitnessI Fitness;
@@ -71,7 +71,7 @@ public class knapsackSGA_Run {
     this.rightHandSide = rightHandSide;
   }
 
-  public void initiateVars(){
+  public void initiateVars(int CrossoverType){
     objectiveMinimization = new boolean[numberOfObjs];
     objectiveMinimization[0] = false;
     encodeType = false;
@@ -81,6 +81,7 @@ public class knapsackSGA_Run {
     Population = new population();
     Selection  = new binaryTournamentMaximization();
     Crossover  = new uniformCrossover();//uniformCrossover onePointBinaryCrossover
+    Crossover2 = new onePointBinaryCrossover();
     Mutation   = new bitFlipMutation();
     ObjectiveFunction  = new ObjectiveFunctionKnapsackI[numberOfObjs];
     ObjectiveFunction[0] = new ObjectiveKnapsackProfitSingleObjective();
@@ -93,12 +94,20 @@ public class knapsackSGA_Run {
 
 
     generations = totalSolnsToExamine/fixPopSize;
-
+    
       //set the data to the GA main program.
-      GaMain.setData(Population, Selection, Crossover, Mutation,
-                     ObjectiveFunction, Fitness, generations, fixPopSize, fixPopSize,
-                     numberOfItems, crossoverRate, mutationRate, objectiveMinimization,
-                     numberOfObjs, encodeType, elitism);
+    if(CrossoverType == 1) {
+        GaMain.setData(Population, Selection, Crossover, Mutation,
+                ObjectiveFunction, Fitness, generations, fixPopSize, fixPopSize,
+                numberOfItems, crossoverRate, mutationRate, objectiveMinimization,
+                numberOfObjs, encodeType, elitism);
+    }
+    else if(CrossoverType == 2) {
+        GaMain.setData(Population, Selection, Crossover2, Mutation,
+                ObjectiveFunction, Fitness, generations, fixPopSize, fixPopSize,
+                numberOfItems, crossoverRate, mutationRate, objectiveMinimization,
+                numberOfObjs, encodeType, elitism);
+    }
   }
 
   public void start(){
@@ -173,7 +182,7 @@ public class knapsackSGA_Run {
                   knapsackSGA_Run knapsackSGA1 = new knapsackSGA_Run();
                   knapsackSGA1.setData(numberOfItem[i], numberOfKnapsack[j], popSize[0], crossoverRate[m], mutationRate[n], elitism[p]);
                   knapsackSGA1.setKnapsackData(instanceName, profit[k], weights[k], rightHandSide[k]);
-                  knapsackSGA1.initiateVars();
+                  knapsackSGA1.initiateVars(1);
                   knapsackSGA1.start();
                 }
               }
