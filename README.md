@@ -8,7 +8,6 @@
 安裝及運行步驟:     
     
     1.在Eclipse中，選擇 Help -> Eclipse Marketplace，搜尋STS(建議4.17以後版本)並安裝   
-
     ![image text](https://github.com/worldstar/OpenGAWeb/blob/22ded745d36536660ab79752e9418282bb86bbe9/readmepicture/classpath1.png)
     
     2.下載並解壓縮本專案後，點選 File -> open project from File System，找到本專案根目錄opengaWeb並fininsh
