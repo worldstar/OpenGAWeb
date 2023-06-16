@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<p><span>Success</span></p>
+	<span th:utext = "${resultString}"></span>  
+	<a href="/algorithmForm"><button>返回表單頁面</button></a>
+</div>
+</body>
+</html>
