@@ -8,7 +8,7 @@
 安裝及運行步驟:      
 1.在Eclipse中，選擇 Help -> Eclipse Marketplace，搜尋STS(建議4.17以後版本)並安裝   
 ![image text](https://github.com/worldstar/OpenGAWeb/blob/af63524ab2142ac44e762ef208ed76f0d3ba0f23/readmepicture/springtool1.png)
-![image text]https://github.com/worldstar/OpenGAWeb/blob/af63524ab2142ac44e762ef208ed76f0d3ba0f23/readmepicture/springtool2.png)
+![image text](https://github.com/worldstar/OpenGAWeb/blob/af63524ab2142ac44e762ef208ed76f0d3ba0f23/readmepicture/springtool2.png)
     
 2.下載並解壓縮本專案後，點選 File -> open project from File System，找到本專案根目錄opengaWeb並fininsh
     
