@@ -22,3 +22,9 @@
 
 
 4.下載並安裝Tomcat，並在Eclipse中點開Server並創建new server，選擇Apache -> Tomcat v9.0 server，然後點擊browse並找到Tomcat根目錄，點擊完成後環境建立完成
+![image text](https://github.com/worldstar/OpenGAWeb/blob/2639d4011fb2a98908e539352724b2fc639e9392/readmepicture/server1.png)
+![image text](https://github.com/worldstar/OpenGAWeb/blob/2639d4011fb2a98908e539352724b2fc639e9392/readmepicture/server2.png)
+![image text](https://github.com/worldstar/OpenGAWeb/blob/2639d4011fb2a98908e539352724b2fc639e9392/readmepicture/server3.png)
+![image text](https://github.com/worldstar/OpenGAWeb/blob/2639d4011fb2a98908e539352724b2fc639e9392/readmepicture/server4.png)
+
+
