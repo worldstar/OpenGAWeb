@@ -12,16 +12,8 @@
     
     2.在Eclipse中，選擇 Help -> Eclipse Marketplace，搜尋STS(建議4.17以後版本)並安裝    
     
-    3.點選new-project -> Springstarter project開啟新的Spring Boot專案    
+    3.下載並解壓縮本專案後，點選 File -> open project from File System，找到本專案根目錄opengaWeb並fininsh
     
-    4.下載並解壓縮本專案後，將opengaWeb/src/main/資料夾中的內容複製並取代新開啟專案的main資料夾中的內容    
+    4.在Eclipse中，於新專案根目錄上方點擊右鍵並選取properties，Java Build Path -> classpath -> Add JARs，找到src/main/webapp/WEB-INF/lib/openga.jar並套用    
     
-    5.將本專案根目錄下pom.xml中的dependencies添加到新專案中的pom.xml     
-
-    6.在本專案根目錄下創建instances和sks資料夾
-
-    7.在instances資料夾中創建TSP資料夾
-    
-    8.在Eclipse中，於新專案根目錄上方點擊右鍵並選取properties，Java Build Path -> classpath -> Add JARs，找到src/main/webapp/WEB-INF/lib/openga.jar並套用    
-    
-    9.下載並安裝Tomcat，並在Eclipse中點開Server並創建new server，選擇Apache -> Tomcat v9.0 server，然後點擊browse並找到Tomcat根目錄，點擊完成後環境建立完成
+    5.下載並安裝Tomcat，並在Eclipse中點開Server並創建new server，選擇Apache -> Tomcat v9.0 server，然後點擊browse並找到Tomcat根目錄，點擊完成後環境建立完成
