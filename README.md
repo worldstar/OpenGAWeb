@@ -3,7 +3,7 @@
     Flowshop Problem、QAP
 
 運行環境需求:    
-    Thymeleaf、Tomcat
+    JDK8、Eclipse
 
 安裝及運行步驟:      
 1.在Eclipse中，選擇 Help -> Eclipse Marketplace，搜尋STS(建議4.17以後版本)並安裝   
